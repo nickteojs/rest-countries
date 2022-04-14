@@ -1,38 +1,56 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap');
+
+:root {
+  --clr-primary-300: hsl(209, 23%, 22%); 
+  --clr-primary-500: hsl(207, 26%, 17%); 
+  --clr-primary-700: hsl(200, 15%, 8%);
+  --clr-secondary-100: hsl(0, 0%, 100%); 
+  --clr-secondary-300: hsl(0, 0%, 98%);
+  --clr-secondary-500: hsl(0, 0%, 52%); 
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+img {
+  width: 100%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+body {
+  font-family: "Nunito Sans", sans-serif;
+  background: var(--clr-primary-500);
+  color: var(--clr-secondary-300);
+}
+
+.container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
+  margin-inline: 2em;
+  margin-block: 3em;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 2rem;
 }
 
-.App-link {
-  color: #61dafb;
+.controls {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card {
+  width: 20%;
+  background: var(--clr-primary-300);
+  border-radius: 10px;
+}
+
+.country-desc {
+  padding: 2rem;
+  line-height: 1.75rem;
+}
+
+.country-desc h3 {
+  margin-bottom: 1rem;
 }
