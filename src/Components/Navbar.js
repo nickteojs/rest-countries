@@ -2,7 +2,12 @@ import React from 'react'
 
 const Navbar = () => {
   return (
-    <div>Navbar</div>
+    <nav>
+      <ul>
+        <li><h3>Countries Wiki</h3></li>
+        <li><button>Dark Mode</button></li>
+      </ul>
+    </nav>
   )
 }
 

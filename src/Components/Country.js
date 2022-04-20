@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Loading from './Loading'
 
 const Country = () => {
+    const [error, setError] = useState(null)
     const [country, setCountry] = useState([])
     const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
     const navigate = useNavigate()
     let params = useParams()
 
@@ -23,8 +24,6 @@ const Country = () => {
         // borderCountries: []
     }
 
-    // const {name, flags, population, region, subregion, capital, tld, currencies, languages, borders}
-
     const fetchCountry = async () => {
         try {
             const response = await axios.get(`https://restcountries.com/v3.1/alpha/${params.countryID}`)
@@ -33,18 +32,19 @@ const Country = () => {
             setLoading(false)
         }
         catch (error) {
-            setError(error.message)
+            setError(error)
         }
     }
 
+    // const {name, flags, population, region, subregion, capital, tld, currencies, languages, borders}
     useEffect(() => {
-        fetchCountry();
+        fetchCountry()
     }, [])
-    
+
     return (
         <>
             {error}
-            {loading ? <p>Loading Country</p> : 
+            {loading ? <Loading/> : 
             <div>
                 <button onClick={() => navigate("/")}>Return</button>
                 {<img style={{width: '20%'}}src={country[0].flags.png} alt={`${country[0].name.common} flag`} />}

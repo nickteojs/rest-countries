@@ -1,18 +1,19 @@
-import React from 'react'
+import { useContext } from 'react'
+import { CountryContext } from './CountryContext'
 
 const Controls = () => {
+  const {searchHandler, currentFilter, setCurrentFilter} = useContext(CountryContext);
+
   return (
     <div className="controls">
     <div className="search">
-      <input type="text" placeholder='Search for country..' />
-      {/* onChange={e => setSearchString(e.target.value)} */}
+      <input type="text" onChange={e => searchHandler(e.target.value)} placeholder='Search for country..' />  
     </div>
     <div className="filter">
-      <select name="filterType" id="filterType">
-      {/* onChange={filterHandler}  */}
-        <option value="0">Filter by region</option>
+      <select value={currentFilter} name="filterType" onChange={e => setCurrentFilter(e.target.value)} id="filterType">
+        <option value="all">All Countries</option>
         <option value="Africa">Africa</option>
-        <option value="America">America</option>
+        <option value="Americas">Americas</option>
         <option value="Asia">Asia</option>
         <option value="Europe">Europe</option>
         <option value="Oceania">Oceania</option>
