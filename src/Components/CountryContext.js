@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from 'react'
+import { useState, createContext, useEffect, useMemo } from 'react'
 import axios from 'axios';
 
 export const CountryContext = createContext();
@@ -13,6 +13,7 @@ export const CountryProvider = props => {
     const [searchString, setSearchString] = useState('')
     const [loading, setLoading] = useState(true)
     const [currentFilter, setCurrentFilter] = useState('all')
+    const [fetched, setFetched] = useState(false)
 
     const sortCountries = countryInfo => {
         // Sort modifies original array
@@ -40,12 +41,16 @@ export const CountryProvider = props => {
             sortCountries(countryData)
             setCountries(countryData)
             setFilteredCountries(countryData)
+            setFetched(true)
         } else {
+            // If filter is not all, don't replace original country array with filtered data,
+            // so that when returning from individual page you can swap back to other filters
             const response = await axios.get(regionalUrl)
             const countryData = await response.data
             sortCountries(countryData)
-            setCountries(countryData)
+            // setCountries(countryData)
             setFilteredCountries(countryData)
+            setFetched(true)
         }
         setLoading(false)
     }
@@ -65,6 +70,7 @@ export const CountryProvider = props => {
     const value = {
         countries,
         filteredCountries,
+        fetched,
         searchString, 
         loading, 
         currentFilter, 
@@ -72,7 +78,7 @@ export const CountryProvider = props => {
         filterHandler,
         setSearchString,
         searchHandler,
-        setCurrentFilter
+        setCurrentFilter,
     }
 
     useEffect(() => {

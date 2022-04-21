@@ -1,16 +1,16 @@
-import { useContext } from 'react'
-import { useEffect } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { CountryContext } from './CountryContext'
 import Controls from './Controls'
 import Loading from './Loading'
 
 const Countries = () => {
-    const { currentFilter, searchString, loading, fetchCountries, filteredCountries } = useContext(CountryContext)
+    const { fetched, searchString, loading, fetchCountries, filteredCountries } = useContext(CountryContext)
 
     useEffect(() => {
+        if (!fetched)
         fetchCountries()
-    }, [currentFilter])
+    }, [])
 
     return (
         <div className="app">
