@@ -1,8 +1,9 @@
-import { useContext, useEffect, useMemo } from 'react'
+import { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { CountryContext } from './CountryContext'
 import Controls from './Controls'
 import Loading from './Loading'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const Countries = () => {
     const { fetched, searchString, loading, fetchCountries, filteredCountries } = useContext(CountryContext)
@@ -15,6 +16,7 @@ const Countries = () => {
     return (
         <div className="app">
         <Controls/>
+        <ReactQueryDevtools/>
         {loading ? <Loading/> :
           <div className="container">
             {filteredCountries.filter(c => {
@@ -25,9 +27,9 @@ const Countries = () => {
               }
             }).map(country => {
               const {name, flags, population, region, capital} = country;
-              return <div className='card' key={country.cca2}>
+              return <div className='card' key={country.cca2} >
                 <Link style={{textDecoration: 'none', textDecorationStyle: 'none', color: 'white'}} to={`/${country.cca2}`}>
-                <img src={flags.png} alt={`${name.common} flag`} />
+                <img class="countries-flag" src={flags.png} alt={`${name.common} flag`} />
                 <div className="country-desc">
                   <h3>{name.common}</h3>
                   <p>Population: {population}</p>

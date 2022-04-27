@@ -2,12 +2,12 @@ import { useContext } from 'react'
 import { CountryContext } from './CountryContext'
 
 const Controls = () => {
-  const {searchHandler, currentFilter, setCurrentFilter} = useContext(CountryContext);
+  const {searchString, searchHandler, currentFilter, setCurrentFilter} = useContext(CountryContext);
 
   return (
     <div className="controls">
     <div className="search">
-      <input type="text" onChange={e => searchHandler(e.target.value)} placeholder='Search for country..' />  
+      <input type="text" value={searchString} onChange={e => searchHandler(e.target.value)} placeholder='Search for country..' />  
     </div>
     <div className="filter">
       <select value={currentFilter} name="filterType" onChange={e => setCurrentFilter(e.target.value)} id="filterType">

@@ -7,7 +7,6 @@ export const CountryProvider = props => {
     // API Links
     // https://restcountries.com/v3.1/all
     // https://restcountries.com/v3.1/name/japan
-
     const [countries, setCountries] = useState([])
     const [filteredCountries, setFilteredCountries] = useState([])
     const [searchString, setSearchString] = useState('')

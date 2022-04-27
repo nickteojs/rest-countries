@@ -1,103 +1,113 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useQuery } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import axios from 'axios'
 import Loading from './Loading'
+import { codes } from '../country-codes'
 
 const Country = () => {
-    const [error, setError] = useState(null)
-    const [country, setCountry] = useState([])
-    const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
     let params = useParams()
 
-    let countryObject = {
-        // name: ,
-        // flag: ,
-        // nativeName: ,
-        // population: ,
-        // region: ,
-        // subRegion: ,
-        // capital: ,
-        // topLevelDomain: ,
-        // currencies: [],
-        // languages: [],
-        // borderCountries: []
-    }
-
     const fetchCountry = async () => {
-        try {
-            const response = await axios.get(`https://restcountries.com/v3.1/alpha/${params.countryID}`)
-            const countryData = await response.data
-            setCountry(countryData)
-            setLoading(false)
+        const response = await axios.get(`https://restcountries.com/v3.1/alpha/${params.countryID}`)
+        // Check if borders exist, if they don't the key doesn't exist
+        const borders = response.data[0].borders
+        if (Object.keys(response.data[0]).includes('borders')) {
+            const initialLength = borders.length
+            const countryBorders = Object.values(borders)
+            countryBorders.forEach(border => {
+                codes.forEach(code => {
+                    if (border === Object.keys(code)[0]) {
+                        borders.push(Object.values(code)[0])
+                    }
+                })
+            })
+            borders.splice(0, initialLength);
         }
-        catch (error) {
-            setError(error)
-        }
+        return response.data
     }
 
-    // const {name, flags, population, region, subregion, capital, tld, currencies, languages, borders}
-    useEffect(() => {
-        fetchCountry()
-    }, [])
+    const { isLoading, isFetching, isError, data, error } = useQuery(['country', params], fetchCountry)
 
     return (
         <>
-            {error}
-            {loading ? <Loading/> : 
-            <div>
-                <button onClick={() => navigate("/")}>Return</button>
-                {<img style={{width: '20%'}}src={country[0].flags.png} alt={`${country[0].name.common} flag`} />}
-                <p>{country[0].name.common}</p>
-                <p>
-                    <strong>Native name:</strong> 
-                    {(Object.values(country[0].name.nativeName)[0]).official}
-                </p>
-                <p>
-                    <strong>Population:</strong> 
-                    {country[0].population}
-                </p>
-                <p>
-                    <strong>Region:</strong> 
-                    {country[0].region}
-                </p>
-                <p>
-                    <strong>Subregion:</strong> 
-                    {country[0].subregion}
-                </p>
-                <p>
-                    <strong>Capital:</strong> 
-                    {country[0].capital}
-                </p>
-                {Object.keys(country[0]).includes('tld') &&
-                    <p>
-                        <strong>Top Level Domain:</strong> 
-                        {country[0].tld[0]}
-                    </p>
-                }
-                <p>
-                    <strong>Currencies:</strong>
-                    {Object.values(country[0].currencies).map((keyName, i) => {
-                        return <p key={i}>{keyName.name} ({keyName.symbol})</p>
-                    })}
-                </p>
-                <p>
-                    <strong>Languages:</strong>
-                    {Object.values(country[0].languages).map((keyName, i) => {
-                        return <p key={i}>{keyName}</p>
-                    })}
-                </p>
-                <p>
-                    <strong>Borders:</strong> 
-                    {Object.keys(country[0]).includes('borders') &&
-                    Object.values(country[0].borders).map((keyName, i) => {
-                        return <p key={i}>{keyName}</p>
-                    })
-                    }
-                </p>
+            {/* <ReactQueryDevtools/> */}
+            {isLoading ? <Loading/> :
+            isError ? <div>Error: {error.message}</div> :
+            // isFetching ? <p>Refreshing</p> : 
+            <div className='country-container'>
+                <div className='return-button'> 
+                    <button onClick={() => navigate("/")}>Return</button>
+                </div>
+                {/* <div>{isFetching ? "Background Updating..." : " "}</div> */}
+                <div className='country-box'>
+                    <div className='flag-box'>
+                        {<img className="country-flag" src={data[0].flags.png} alt={`${data[0].name.common} flag`} />}
+                    </div>
+                    <div className='desc-box'>
+                        <h1 className='title'>{data[0].name.common}</h1>
+                        <div className='country-description'>
+                            <div className='desc-1'>
+                                <div className='country-info'>
+                                    <strong>Native name:</strong>
+                                    <p>{(Object.values(data[0].name.nativeName)[0]).official}</p>
+                                </div>
+                                <div className='country-info'>
+                                    <strong>Population:</strong>
+                                    <p>{data[0].population}</p>
+                                </div>
+                                <div className='country-info'>
+                                    <strong>Region:</strong>
+                                    <p>{data[0].region}</p>
+                                </div>
+                                <div className='country-info'>
+                                    <strong>Subregion:</strong>
+                                    <p>{data[0].subregion}</p>
+                                </div>
+                                <div className='country-info'>
+                                    <strong>Capital:</strong>
+                                    <p>{data[0].capital}</p>
+                                </div>
+                            </div>
+                            <div>
+                                {Object.keys(data[0]).includes('tld') &&
+                                    <div className='country-info'>
+                                        <strong>Top Level Domain:</strong>
+                                        <p>{data[0].tld[0]}</p>
+                                    </div>
+                                }
+                                {Object.keys(data[0]).includes('currencies') &&
+                                    <div className='country-info'>
+                                        <strong>Currencies:</strong>
+                                        {Object.values(data[0].currencies).map((keyName, i) => {
+                                            return <p key={i}>{keyName.name} ({keyName.symbol})</p>
+                                        })}
+                                    </div>
+                                }
+                                <div className='country-info'>
+                                    <strong>Languages:</strong>
+                                    {Object.values(data[0].languages).map((keyName, i) => {
+                                        return <p class="language" key={i}>{keyName}</p>
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                        {Object.keys(data[0]).includes('borders') &&
+                            <div className='borders'>
+                              <p>Borders Countries:</p>
+                                {Object.values(data[0].borders).map((keyName, i) => {
+                                    return <p className="border-country" key={i}>
+                                        {keyName}
+                                    </p>
+                                })}
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
             }
-            
         </>
     )
 }
