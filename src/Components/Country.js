@@ -38,22 +38,24 @@ const Country = () => {
             isError ? <div>Error: {error.message}</div> :
             // isFetching ? <p>Refreshing</p> : 
             <div className='country-container'>
-                <div className='return-button'> 
-                    <button onClick={() => navigate("/")}>Return</button>
+                <div className='return-container'> 
+                    <button className='return-button' onClick={() => navigate("/")}>Return</button>
                 </div>
                 {/* <div>{isFetching ? "Background Updating..." : " "}</div> */}
                 <div className='country-box'>
                     <div className='flag-box'>
-                        {<img className="country-flag" src={data[0].flags.png} alt={`${data[0].name.common} flag`} />}
+                        <img className="country-flag" src={data[0].flags.png} alt={`${data[0].name.common} flag`} />
                     </div>
                     <div className='desc-box'>
                         <h1 className='title'>{data[0].name.common}</h1>
                         <div className='country-description'>
                             <div className='desc-1'>
-                                <div className='country-info'>
-                                    <strong>Native name:</strong>
-                                    <p>{(Object.values(data[0].name.nativeName)[0]).official}</p>
-                                </div>
+                                {Object.keys(data[0].name).includes('nativeName') &&
+                                    <div className='country-info'>
+                                        <strong>Native Name:</strong>
+                                        <p>{(Object.values(data[0].name.nativeName)[0]).official}</p>
+                                    </div>
+                                }
                                 <div className='country-info'>
                                     <strong>Population:</strong>
                                     <p>{data[0].population}</p>
@@ -71,7 +73,7 @@ const Country = () => {
                                     <p>{data[0].capital}</p>
                                 </div>
                             </div>
-                            <div>
+                            <div className='desc-2'>
                                 {Object.keys(data[0]).includes('tld') &&
                                     <div className='country-info'>
                                         <strong>Top Level Domain:</strong>
@@ -86,17 +88,19 @@ const Country = () => {
                                         })}
                                     </div>
                                 }
-                                <div className='country-info'>
-                                    <strong>Languages:</strong>
-                                    {Object.values(data[0].languages).map((keyName, i) => {
-                                        return <p class="language" key={i}>{keyName}</p>
-                                    })}
-                                </div>
+                                {Object.keys(data[0]).includes('languages') &&
+                                    <div className='country-info'>
+                                        <strong>Languages:</strong>
+                                        {Object.values(data[0].languages).map((keyName, i) => {
+                                            return <p class="language" key={i}>{keyName}</p>
+                                        })}
+                                    </div>
+                                }
                             </div>
                         </div>
                         {Object.keys(data[0]).includes('borders') &&
                             <div className='borders'>
-                              <p>Borders Countries:</p>
+                              <strong>Borders Countries:</strong>
                                 {Object.values(data[0].borders).map((keyName, i) => {
                                     return <p className="border-country" key={i}>
                                         {keyName}

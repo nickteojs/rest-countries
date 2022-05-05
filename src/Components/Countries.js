@@ -16,7 +16,7 @@ const Countries = () => {
     return (
         <div className="app">
         <Controls/>
-        <ReactQueryDevtools/>
+        {/* <ReactQueryDevtools/> */}
         {loading ? <Loading/> :
           <div className="container">
             {filteredCountries.filter(c => {
@@ -28,8 +28,8 @@ const Countries = () => {
             }).map(country => {
               const {name, flags, population, region, capital} = country;
               return <div className='card' key={country.cca2} >
-                <Link style={{textDecoration: 'none', textDecorationStyle: 'none', color: 'white'}} to={`/${country.cca2}`}>
-                <img class="countries-flag" src={flags.png} alt={`${name.common} flag`} />
+                <Link to={`/${country.cca2}`}>
+                <img className="countries-flag" src={flags.png} alt={`${name.common} flag`} />
                 <div className="country-desc">
                   <h3>{name.common}</h3>
                   <p>Population: {population}</p>
