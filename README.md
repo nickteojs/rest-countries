@@ -3,12 +3,10 @@
 This is a countries-wiki application built as part of the frontendmentor challenge (https://www.frontendmentor.io/challenges/rest-countries-api-with-color-theme-switcher-5cacc469fec04111f7b848ca).
 
 This application is built using:
-React
-React Router
-React Query
+React, React Router, React Query
 
 View working demo:
-https://react-blog-698ba.web.app/
+https://nickteo-rest-countries.netlify.app/
 
 ## Installation
 
