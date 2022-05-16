@@ -29,8 +29,8 @@ export const CountryProvider = props => {
     }
 
     const fetchCountries = async () => {
-        let defaultUrl = "https://restcountrie.com/v3.1/all"
-        let regionalUrl = `https://restcountrie.com/v3.1/region/${currentFilter}`
+        let defaultUrl = "https://restcountries.com/v3.1/all"
+        let regionalUrl = `https://restcountries.com/v3.1/region/${currentFilter}`
         setLoading(true)
         if (currentFilter === 'all') {
             const response = await axios.get(defaultUrl)
