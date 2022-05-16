@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { CountryContext } from './CountryContext'
 import Controls from './Controls'
 import Loading from './Loading'
-import { ReactQueryDevtools } from 'react-query/devtools'
 
 const Countries = () => {
     const { fetched, searchString, loading, fetchCountries, filteredCountries } = useContext(CountryContext)
@@ -16,7 +15,6 @@ const Countries = () => {
     return (
         <div className="app">
         <Controls/>
-        {/* <ReactQueryDevtools/> */}
         {loading ? <Loading/> :
           <div className="container">
             {filteredCountries.filter(c => {

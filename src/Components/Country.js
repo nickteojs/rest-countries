@@ -1,7 +1,5 @@
-import { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
 import axios from 'axios'
 import Loading from './Loading'
 import { codes } from '../country-codes'
@@ -29,19 +27,16 @@ const Country = () => {
         return response.data
     }
 
-    const { isLoading, isFetching, isError, data, error } = useQuery(['country', params], fetchCountry)
+    const { isLoading, isError, data, error } = useQuery(['country', params], fetchCountry)
 
     return (
-        <>
-            {/* <ReactQueryDevtools/> */}
+        <div className="app">
             {isLoading ? <Loading/> :
             isError ? <div>Error: {error.message}</div> :
-            // isFetching ? <p>Refreshing</p> : 
             <div className='country-container'>
                 <div className='return-container'> 
                     <button className='return-button' onClick={() => navigate("/")}>Return</button>
                 </div>
-                {/* <div>{isFetching ? "Background Updating..." : " "}</div> */}
                 <div className='country-box'>
                     <div className='flag-box'>
                         <img className="country-flag" src={data[0].flags.png} alt={`${data[0].name.common} flag`} />
@@ -112,7 +107,7 @@ const Country = () => {
                 </div>
             </div>
             }
-        </>
+        </div>
     )
 }
 

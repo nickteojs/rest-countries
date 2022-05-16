@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect, useMemo } from 'react'
+import { useState, createContext, useEffect } from 'react'
 import axios from 'axios';
 
 export const CountryContext = createContext();
@@ -15,7 +15,6 @@ export const CountryProvider = props => {
     const [fetched, setFetched] = useState(false)
 
     const sortCountries = countryInfo => {
-        // Sort modifies original array
         countryInfo.sort((a,b) => a.name.common<b.name.common ? -1 : 1)
         .sort((a,b) => {
         const nameA = a.name.common.toLowerCase()
@@ -30,12 +29,11 @@ export const CountryProvider = props => {
     }
 
     const fetchCountries = async () => {
-        let defaultUrl = "https://restcountries.com/v3.1/all"
-        let regionalUrl = `https://restcountries.com/v3.1/region/${currentFilter}`
+        let defaultUrl = "https://restcountrie.com/v3.1/all"
+        let regionalUrl = `https://restcountrie.com/v3.1/region/${currentFilter}`
         setLoading(true)
         if (currentFilter === 'all') {
             const response = await axios.get(defaultUrl)
-            // Don't call sort in await
             const countryData = await response.data
             sortCountries(countryData)
             setCountries(countryData)
@@ -47,7 +45,6 @@ export const CountryProvider = props => {
             const response = await axios.get(regionalUrl)
             const countryData = await response.data
             sortCountries(countryData)
-            // setCountries(countryData)
             setFilteredCountries(countryData)
             setFetched(true)
         }

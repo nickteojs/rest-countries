@@ -3,9 +3,7 @@
 :root {
   --clr-dark-1: hsl(209, 23%, 22%); 
   --clr-dark-2: hsl(207, 26%, 17%);
-  /* Button & UL Font Color */
   --clr-light-1: hsl(0, 0%, 100%); 
-  /* Body, search, select, button, border countries */
   --clr-light-2: hsl(0, 0%, 90%);
 }
 
@@ -58,7 +56,7 @@ button:hover {
 .loading {
   display: inline-block;
   position: relative;
-  margin-top: 1rem;
+  margin: 1rem auto;
   width: 80px;
   height: 80px;
 }
@@ -157,15 +155,6 @@ ul h3 {
   box-shadow: -1px 1px 7px 0px rgba(0,0,0,0.3);
 }
 
-
-/* .card:first-child {
-  margin-left: 0;
-}
-
-.card:last-child {
-  margin-right: 0;
-} */
-
 .search input {
   padding-block: 1rem;
   padding-left: 1.5rem;
@@ -185,16 +174,6 @@ input::placeholder {
 input:focus,
 select:focus {
   outline: 0.25px solid var(--clr-light-2);
-}
-
-/* .filter select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-} */
-
-.filter::after {
-
 }
 
 select {
@@ -280,7 +259,8 @@ select {
 
 /* Mobile M - 375 */
 @media (min-width: 20em) {
-  ul {
+  ul,
+  .loading-container {
     padding: 1.5rem 1rem;
   }
 
@@ -338,17 +318,14 @@ select {
     font-size: 0.85rem;
   }
 
-  .desc-1 {
-    /* margin: 0 0 1.5rem 0; */
-  }
-
   .country-info {
     flex-wrap: wrap;
   }
 }
 
 @media(min-width: 30em) {
-  ul {
+  ul,
+  .loading-container {
     padding-inline: 2rem;
   }
 
@@ -362,7 +339,8 @@ select {
 }
 
 @media (min-width: 40em) {
-  ul {
+  ul,
+  .loading-container {
     padding: 1.75rem 4rem;
   }
   .controls {
@@ -379,7 +357,8 @@ select {
 }
 
 @media (min-width: 50em) {
-  ul {
+  ul,
+  .loading-container {
     padding: 1.75rem 4rem;
   }
   .controls {
@@ -430,7 +409,8 @@ select {
   .app {
     max-width: 1280px;
   }
-  ul {
+  ul,
+  .loading-container {
     padding: 1.75rem 0;
   }
 
